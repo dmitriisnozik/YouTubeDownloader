@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 import sys
 import os
-import youtube_dl
+import yt_dlp
 from PyQt6.QtWidgets import QFileDialog
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtGui import QFontDatabase
@@ -44,7 +44,7 @@ class Main(QMainWindow):
             ydl_opts = {'format': format_dict[self.ui.comboBox.currentText()]}
             video_url = self.ui.select_link.text()
 
-            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([video_url])
 
         th = threading.Thread(target=start)
