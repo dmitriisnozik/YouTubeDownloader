@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import QFileDialog
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtGui import QFontDatabase
 from design import Ui_MainWindow
+import pyautogui
 import threading
 
 
@@ -40,9 +41,13 @@ class Main(QMainWindow):
         global video_url
 
         def start():
+            def hook(d):
+                if d['status'] == 'finished':
+                    pyautogui.alert('Video is downloaded')
+
             format_dict = {
-                'Audio only (best)': 'bestaudio',
-                'Audio only (worst)': 'worstaudio',
+                'Audio only (best)': 'm4a/bestaudio/best',
+                'Audio only (worst)': 'm4a/worstaudio/worst',
                 'Video only (best)': 'bestvideo',
                 'Video only (worst)': 'worstvideo',
                 'Best quality': 'best',
@@ -51,6 +56,7 @@ class Main(QMainWindow):
 
             ydl_opts = {
                 'format': format_dict[self.ui.comboBox.currentText()],
+                'progress_hooks': [hook]
                         }
 
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
