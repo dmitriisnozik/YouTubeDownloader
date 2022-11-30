@@ -1,1 +1,1 @@
-Simpliest window application to download videos from YouTube
+Simpliest window application to download videos and playlists from YouTube
