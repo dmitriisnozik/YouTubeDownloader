@@ -10,6 +10,7 @@ import threading
 
 
 class Main(QMainWindow):
+    video_url = None
 
     def __init__(self):
         super(Main, self).__init__()
@@ -23,7 +24,12 @@ class Main(QMainWindow):
         self.ui.pushButton.clicked.connect(self.change_dir)
 
     def chosen_video(self):
-        self.ui.selected_video.setText(self.ui.select_link.text())
+        global video_url
+
+        with yt_dlp.YoutubeDL() as ydl:
+            info_dict = ydl.extract_info(self.ui.select_link.text(), download=False)
+        self.ui.selected_video.setText(info_dict.get('title', None))
+        video_url = self.ui.select_link.text()
 
     def change_dir(self):
         dir_name = QFileDialog.getExistingDirectory()
@@ -31,6 +37,8 @@ class Main(QMainWindow):
         self.ui.pushButton.setText(dir_name)
 
     def download_start(self):
+        global video_url
+
         def start():
             format_dict = {
                 'Audio only (best)': 'bestaudio',
@@ -41,8 +49,9 @@ class Main(QMainWindow):
                 'Worst quality': 'worst'
             }
 
-            ydl_opts = {'format': format_dict[self.ui.comboBox.currentText()]}
-            video_url = self.ui.select_link.text()
+            ydl_opts = {
+                'format': format_dict[self.ui.comboBox.currentText()],
+                        }
 
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([video_url])

@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel,
-    QLineEdit, QMainWindow, QPushButton, QSizePolicy,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
+    QLabel, QLineEdit, QMainWindow, QPushButton,
+    QSizePolicy, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -40,12 +40,17 @@ class Ui_MainWindow(object):
         self.label.setStyleSheet(u"font-weight: bold;\n"
 "font-size: 15px;\n"
 "color: #000000;")
+        self.label.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
 
         self.verticalLayout.addWidget(self.label)
 
         self.selected_video = QLabel(self.centralwidget)
         self.selected_video.setObjectName(u"selected_video")
         self.selected_video.setMaximumSize(QSize(16777215, 30))
+        self.selected_video.setStyleSheet(u"font-weight: bold;\n"
+"")
+        self.selected_video.setFrameShape(QFrame.Box)
+        self.selected_video.setFrameShadow(QFrame.Sunken)
 
         self.verticalLayout.addWidget(self.selected_video)
 
